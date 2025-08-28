@@ -10,26 +10,40 @@ export class TravelersService {
     private  prisma: PrismaService
   ) {}
 
-  create(createTravelerDto: CreateTravelerDto) {
-    return 'This action adds a new traveler';
-  }
+ create (body: any){
+  return this.prisma.travelers.create({
+    data: body
+  })
+}
 
   findAll() {
     return this.prisma.travelers.findMany({
-      orderBy: [{id_travelers:'asc'}]
+      orderBy: [{id_travelers:'desc'}]
     })
 
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} traveler`;
+    return this.prisma.travelers.findFirst({
+      where: {id_travelers:id}
+    })
   }
 
-  update(id: number, updateTravelerDto: UpdateTravelerDto) {
-    return `This action updates a #${id} traveler`;
+async update(id: number, body:any) {
+    return await this.prisma.travelers.update({
+      where: {id_travelers : id},
+      data: body
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} traveler`;
+  async remove(id: number) {
+    await this.prisma.travelers.delete({
+      where: {id_travelers:id}
+    })
+    return {
+      "exito" : true,
+      "mensaje" : "Eliminado correctamente",
+      "id" : id
+    }
   }
 }

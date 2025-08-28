@@ -8,9 +8,10 @@ export class TravelersController {
   constructor(private readonly travelersService: TravelersService) {}
 
   @Post()
-  create(@Body() createTravelerDto: CreateTravelerDto) {
-    return this.travelersService.create(createTravelerDto);
+  create (@Body () body:any){
+    return this.travelersService.create(body)
   }
+  
 
   @Get()
   findAll() {
@@ -23,12 +24,18 @@ export class TravelersController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTravelerDto: UpdateTravelerDto) {
-    return this.travelersService.update(+id, updateTravelerDto);
+  update(@Param('id') id: string, @Body() body:any) {
+    return {
+      "Exito" : true,
+      "Mensaje" : "Actualizado correctamente",
+      "id" : id,
+      "data" : this.travelersService.update(+id,body)
+
+    };
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.travelersService.remove(+id);
-  }
+     }
 }
